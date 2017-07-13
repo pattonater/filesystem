@@ -482,6 +482,14 @@ namespace
       } while (sz_write < sz_read);
     }
 
+    // preserve timestamps
+    struct timespec timespec[2];
+    timespec[0] = from_stat.st_atim;
+    timespec[1] = from_stat.st_mtim;
+    if (futimens(outfile, timespec) != 0) {
+      // should anything be done here
+    }
+
     if (::close(infile)< 0)
       sz_read = -1;
     if (::close(outfile)< 0)
